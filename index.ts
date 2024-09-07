@@ -18,13 +18,13 @@ app.use("/api/customer", customerRoute);
 app.use(errorMiddleware);
 
 mongoose
-	.connect(DB_CONNECTION)
-	.then(() => {
-		console.log("Connected to database");
-		app.listen(PORT, () => {
-			console.log(`Port connected: ${PORT}`);
-		});
-	})
-	.catch((error) => {
-		console.log(error);
-	});
+  .connect(DB_CONNECTION)
+  .then(() => {
+    console.log("Connected to database");
+    app.listen(PORT, () => {
+      console.log(`Port connected: ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });

@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Request, Response } from "express";
 const Customer = require("../models/customerModel");
 const asyncHandler = require("express-async-handler");
 
@@ -10,7 +10,7 @@ const getCustomers = asyncHandler(async (req: Request, res: Response) => {
     res.status(200).json(customer);
   } catch (error: any) {
     res.status(500);
-    throw new Error((error.message));
+    throw new Error(error.message);
   }
 });
 
@@ -69,7 +69,7 @@ const deleteCustomer = asyncHandler(async (req: Request, res: Response) => {
       throw new Error(`cannot find a customer with ID ${id}`);
     }
     res.status(200).json(customer);
-  } catch (error:any) {
+  } catch (error: any) {
     res.status(500);
     throw new Error(error.message);
   }
