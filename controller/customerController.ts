@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-const Customer = require("../models/customerModel");
-const asyncHandler = require("express-async-handler");
+import Customer from "../models/customerModel";
+import asyncHandler from "express-async-handler";
+
 
 //! Get All Customers
 
-const getCustomers = asyncHandler(async (req: Request, res: Response) => {
+const getCustomers = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   try {
     const customer = await Customer.find({});
     res.status(200).json(customer);
@@ -14,71 +15,81 @@ const getCustomers = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+
 //! Get Single Customer
 
-const getCustomer = asyncHandler(async (req: Request, res: Response) => {
+const getCustomer = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const customer = await Customer.findById(id);
     res.status(200).json(customer);
-  } catch (error: any) {
+  } catch (error) {
     res.status(500);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
   }
 });
 
 //! Create a Customer
 
-const createCustomer = asyncHandler(async (req: Request, res: Response) => {
+const createCustomer = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   try {
     const customer = await Customer.create(req.body);
     res.status(200).json(customer);
-  } catch (error: any) {
+  } catch (error) {
     res.status(500);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
   }
 });
 
 //! Updating a Customer
 
-const updateCustomer = asyncHandler(async (req: Request, res: Response) => {
+const updateCustomer = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const customer = await Customer.findByIdAndUpdate(id, req.body);
     if (!customer) {
-      return res
-        .status(404)
-        .json({ message: `cannot find and customer with ID ${id}` });
+      res.status(404).json({ message: `cannot find a customer with ID ${id}` });
+      return;
     }
     const updatedCustomer = await Customer.findById(id);
     res.status(200).json(updatedCustomer);
-  } catch (error: any) {
+  } catch (error) {
     res.status(500);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
   }
 });
 
 //! Delete a Customer
 
-const deleteCustomer = asyncHandler(async (req: Request, res: Response) => {
+const deleteCustomer = asyncHandler(async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
     const customer = await Customer.findByIdAndDelete(id);
     if (!customer) {
-      res.status(404);
-      throw new Error(`cannot find a customer with ID ${id}`);
+      res.status(404).json({ message: `cannot find a customer with ID ${id}` });
+      return;
     }
     res.status(200).json(customer);
-  } catch (error:any) {
+  } catch (error) {
     res.status(500);
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred');
+    }
   }
 });
 
-module.exports = {
-  getCustomers,
-  getCustomer,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
-};
+export { getCustomers ,getCustomer, createCustomer, updateCustomer, deleteCustomer };

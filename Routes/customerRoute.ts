@@ -1,12 +1,6 @@
 import express from "express";
-const Customer = require("../models/customerModel");
-const {
-  getCustomers,
-  getCustomer,
-  createCustomer,
-  updateCustomer,
-  deleteCustomer,
-} = require("../controller/customerController");
+import Customer from "../models/customerModel";
+import { getCustomers, getCustomer, createCustomer, updateCustomer, deleteCustomer } from "../controller/customerController";
 
 const router = express.Router();
 
