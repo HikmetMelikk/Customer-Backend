@@ -23,7 +23,7 @@ const customerSchema = new mongoose.Schema(
 			required: [true, "Order name can't be empty"],
 		},
 		orderId: {
-			type: Number,
+			type: String,
 			required: true,
 		},
 	},
